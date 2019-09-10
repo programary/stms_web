@@ -107,11 +107,49 @@ export default {
               path: '/',
               redirect: '/welcome',
             },
+            // {
+            //   path: '/welcome',
+            //   name: 'welcome',
+            //   icon: 'smile',
+            //   component: './Welcome',
+            // },
             {
-              path: '/welcome',
-              name: 'welcome',
-              icon: 'smile',
-              component: './Welcome',
+              path: '/transport',
+              name: '运输管理',
+              icon: 'car',
+              component: './Transport',
+            },
+            {
+              path: '/company',
+              name: '企业',
+              icon: 'home',
+              routes: [
+                {
+                  path: '/company/handle',
+                  name: '处置企业',
+                  exact: true,
+                  component: './Company/Handle',
+                },
+                {
+                  path: '/company/produce',
+                  name: '生产企业',
+                  exact: true,
+                  component: './Company/Produce',
+                },
+              ],
+            },
+            {
+              path: '/setting',
+              name: '系统设置',
+              icon: 'setting',
+              routes: [
+                {
+                  path: '/setting/user',
+                  name: '成员管理',
+                  exact: true,
+                  component: './Setting/User',
+                },
+              ],
             },
             {
               component: './404',
