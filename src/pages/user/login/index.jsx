@@ -1,11 +1,9 @@
 import { Alert, Checkbox, Icon } from 'antd';
-import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
 import React, { Component } from 'react';
 import Link from 'umi/link';
 import { connect } from 'dva';
 import LoginComponents from './components/Login';
 import styles from './style.less';
-
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = LoginComponents;
 
 @connect(({ login, loading }) => ({
@@ -56,20 +54,11 @@ class Login extends Component {
             this.loginForm = form;
           }}
         >
-          <Tab
-            key="account"
-            tab={formatMessage({
-              id: 'user-login.login.tab-login-credentials',
-            })}
-          >
+          <Tab key="account" tab="账户密码登录">
             {status === 'error' &&
               loginType === 'account' &&
               !submitting &&
-              this.renderMessage(
-                formatMessage({
-                  id: 'user-login.login.message-invalid-credentials',
-                }),
-              )}
+              this.renderMessage('账户或密码错误（admin/ant.design）')}
             <UserName
               name="user_name"
               placeholder="用户名"
@@ -99,21 +88,19 @@ class Login extends Component {
             />
           </Tab>
           {/* <div>
-            <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
-              <FormattedMessage id="user-login.login.remember-me" />
-            </Checkbox>
-            <a
-              style={{
-                float: 'right',
-              }}
-              href=""
-            >
-              <FormattedMessage id="user-login.login.forgot-password" />
-            </a>
+           <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
+             <FormattedMessage id="user-login.login.remember-me" />
+           </Checkbox>
+           <a
+             style={{
+               float: 'right',
+             }}
+             href=""
+           >
+             <FormattedMessage id="user-login.login.forgot-password" />
+           </a>
           </div> */}
-          <Submit loading={submitting}>
-            <FormattedMessage id="user-login.login.login" />
-          </Submit>
+          <Submit loading={submitting}>登录</Submit>
         </LoginComponents>
       </div>
     );

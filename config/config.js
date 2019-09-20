@@ -54,20 +54,20 @@ const plugins = [
   ],
 ]; // 针对 preview.pro.ant.design 的 GA 统计代码
 
-if (isAntDesignProPreview) {
-  plugins.push([
-    'umi-plugin-ga',
-    {
-      code: 'UA-72788897-6',
-    },
-  ]);
-  plugins.push([
-    'umi-plugin-pro',
-    {
-      serverUrl: 'https://ant-design-pro.netlify.com',
-    },
-  ]);
-}
+// if (isAntDesignProPreview) {
+//   plugins.push([
+//     'umi-plugin-ga',
+//     {
+//       code: 'UA-72788897-6',
+//     },
+//   ]);
+//   plugins.push([
+//     'umi-plugin-pro',
+//     {
+//       serverUrl: 'https://ant-design-pro.netlify.com',
+//     },
+//   ]);
+// }
 
 export default {
   plugins,
@@ -105,7 +105,7 @@ export default {
           routes: [
             {
               path: '/',
-              redirect: '/welcome',
+              redirect: '/transport',
             },
             // {
             //   path: '/welcome',
@@ -127,13 +127,13 @@ export default {
                 {
                   path: '/company/handle',
                   name: '处置企业',
-                  exact: true,
+                  // exact: true,
                   component: './Company/Handle',
                 },
                 {
                   path: '/company/produce',
                   name: '生产企业',
-                  exact: true,
+                  // exact: true,
                   component: './Company/Produce',
                 },
               ],
@@ -146,7 +146,7 @@ export default {
                 {
                   path: '/setting/user',
                   name: '成员管理',
-                  exact: true,
+                  // exact: true,
                   component: './Setting/User',
                 },
               ],
@@ -209,7 +209,7 @@ export default {
   chainWebpack: webpackPlugin,
   proxy: {
     '/api': {
-      target: 'http://111.231.191.63:3000/mock/11',
+      target: 'http://111.231.191.63:3000/mock/38',
       changeOrigin: true,
     },
   },
