@@ -54,4 +54,12 @@ const request = extend({
   credentials: 'include', // 默认请求是否带上cookie
 });
 
+request.use(async (ctx, next) => {
+  await next();
+  const { req, res } = ctx;
+  const { options } = req;
+  const { format = true } = options;
+  ctx.res = format ? res.data : res;
+});
+
 export default request;

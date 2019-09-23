@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
+import router from 'umi/router';
 import { Card, Row, Col, Button, message } from 'antd';
 import NormalTable from '@/components/NormalTable';
 import { renderColumns } from './constants';
@@ -72,6 +73,9 @@ export default class Transport extends PureComponent {
           },
         );
       },
+      scroll: {
+        x: 3000,
+      },
     };
 
     return (
@@ -79,7 +83,14 @@ export default class Transport extends PureComponent {
         bordered={false}
         title="运输管理"
         extra={
-          <Button icon="plus" type="primary">
+          <Button
+            icon="plus"
+            type="primary"
+            onClick={e => {
+              e.preventDefault();
+              router.push('/transport/add');
+            }}
+          >
             添加
           </Button>
         }

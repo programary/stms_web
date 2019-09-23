@@ -1,7 +1,8 @@
 import defaultSettings from './defaultSettings'; // https://umijs.org/config/
-
 import slash from 'slash2';
 import webpackPlugin from './plugin.config';
+import routes from './routes';
+
 const { pwa, primaryColor } = defaultSettings; // preview.pro.ant.design only do not use in your production ;
 // preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
 
@@ -82,89 +83,7 @@ export default {
   },
   devtool: isAntDesignProPreview ? 'source-map' : false,
   // umi routes: https://umijs.org/zh/guide/router.html
-  routes: [
-    {
-      path: '/user',
-      component: '../layouts/UserLayout',
-      routes: [
-        {
-          name: 'login',
-          path: '/user/login',
-          component: './user/login',
-        },
-      ],
-    },
-    {
-      path: '/',
-      component: '../layouts/SecurityLayout',
-      routes: [
-        {
-          path: '/',
-          component: '../layouts/BasicLayout',
-          authority: ['admin', 'user', 'login'],
-          routes: [
-            {
-              path: '/',
-              redirect: '/transport',
-            },
-            // {
-            //   path: '/welcome',
-            //   name: 'welcome',
-            //   icon: 'smile',
-            //   component: './Welcome',
-            // },
-            {
-              path: '/transport',
-              name: '运输管理',
-              icon: 'car',
-              component: './Transport',
-            },
-            {
-              path: '/company',
-              name: '企业',
-              icon: 'home',
-              routes: [
-                {
-                  path: '/company/handle',
-                  name: '处置企业',
-                  // exact: true,
-                  component: './Company/Handle',
-                },
-                {
-                  path: '/company/produce',
-                  name: '生产企业',
-                  // exact: true,
-                  component: './Company/Produce',
-                },
-              ],
-            },
-            {
-              path: '/setting',
-              name: '系统设置',
-              icon: 'setting',
-              routes: [
-                {
-                  path: '/setting/user',
-                  name: '成员管理',
-                  // exact: true,
-                  component: './Setting/User',
-                },
-              ],
-            },
-            {
-              component: './404',
-            },
-          ],
-        },
-        {
-          component: './404',
-        },
-      ],
-    },
-    {
-      component: './404',
-    },
-  ],
+  routes,
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
     'primary-color': primaryColor,
