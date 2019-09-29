@@ -92,6 +92,7 @@ export default class TransportEdit extends PureComponent {
 
     return (
       <Card
+        loading={loading}
         bordered={false}
         title="运输管理-编辑"
         extra={

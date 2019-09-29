@@ -3,26 +3,26 @@ import { connect } from 'dva';
 import router from 'umi/router';
 import { Card, Row, Col, Button, message } from 'antd';
 import NormalTable from '@/components/NormalTable';
-import { renderColumns } from '../constants';
-import CompanyProduceForm from './form';
+import ManagementUserForm from './form';
+import { renderColumns } from './constants';
 import { jsonReplacer } from '@/utils/tools';
 import styles from './index.less';
 
 @connect(({
-  produceCompany: { lists },
+  managementUser: { lists },
   loading: {
-    effects: { 'produceCompany/queryList': loading },
+    effects: { 'managementUser/queryList': loading },
   },
 }) => ({
   lists,
   loading,
 }))
-export default class CompanyProduce extends PureComponent {
+export default class ManagementUser extends PureComponent {
   state = {
     fields: {
+      operator: '',
       pageNum: 0,
       pageSize: 20,
-      companyName: '',
     },
   };
 
@@ -44,7 +44,7 @@ export default class CompanyProduce extends PureComponent {
     );
 
     dispatch({
-      type: 'produceCompany/queryList',
+      type: 'managementUser/queryList',
       payload: {
         ...formatParams,
       },
@@ -82,30 +82,30 @@ export default class CompanyProduce extends PureComponent {
         );
       },
       scroll: {
-        x: 3000,
+        x: 1800,
       },
     };
 
     return (
       <Card
         bordered={false}
-        title="生产企业"
+        title="成员管理"
         extra={
           <Button
             icon="plus"
             type="primary"
             onClick={e => {
               e.preventDefault();
-              router.push('/company/produce/add');
+              router.push('/management/user/add');
             }}
           >
             添加
           </Button>
         }
       >
-        <Row className={styles.produceCompanyRow}>
+        <Row className={styles.managementUserRow}>
           <Col span={24}>
-            <CompanyProduceForm
+            <ManagementUserForm
               onSubmit={data => {
                 this.setState(
                   ({ fields: prevFields }) => ({
@@ -122,7 +122,7 @@ export default class CompanyProduce extends PureComponent {
             />
           </Col>
         </Row>
-        <Row className={styles.produceCompanyRow}>
+        <Row className={styles.managementUserRow}>
           <Col span={24}>
             <NormalTable {...setting} />
           </Col>

@@ -23,12 +23,6 @@ const routes = [
             path: '/',
             redirect: '/transport/list',
           },
-          // {
-          //   path: '/welcome',
-          //   name: 'welcome',
-          //   icon: 'smile',
-          //   component: './Welcome',
-          // },
           {
             path: '/transport/list',
             name: '运输管理',
@@ -51,29 +45,56 @@ const routes = [
             icon: 'home',
             routes: [
               {
-                path: '/company/handle',
+                path: '/company/handle/list',
                 name: '处置企业',
-                // exact: true,
                 component: './Company/Handle',
               },
               {
-                path: '/company/produce',
+                path: '/company/handle/add',
+                hideInMenu: true,
+                component: './Company/Handle/add',
+              },
+              {
+                path: '/company/handle/edit/:id',
+                hideInMenu: true,
+                component: './Company/Handle/edit',
+              },
+              {
+                path: '/company/produce/list',
                 name: '生产企业',
-                // exact: true,
                 component: './Company/Produce',
+              },
+              {
+                path: '/company/produce/add',
+                hideInMenu: true,
+                component: './Company/Produce/add',
+              },
+              {
+                path: '/company/produce/edit/:id',
+                hideInMenu: true,
+                component: './Company/Produce/edit',
               },
             ],
           },
           {
-            path: '/setting',
+            path: '/management',
             name: '系统设置',
             icon: 'setting',
             routes: [
               {
-                path: '/setting/user',
+                path: '/management/user/list',
                 name: '成员管理',
-                // exact: true,
-                component: './Setting/User',
+                component: './Management/User',
+              },
+              {
+                path: '/management/user/add',
+                hideInMenu: true,
+                component: './Management/User/add',
+              },
+              {
+                path: '/management/user/edit/:id',
+                hideInMenu: true,
+                component: './Management/User/edit',
               },
             ],
           },

@@ -3,13 +3,24 @@ import { connect } from 'dva';
 import router from 'umi/router';
 import { Card, Row, Col, Button, message } from 'antd';
 import NormalTable from '@/components/NormalTable';
+import TransportForm from './form';
 import { renderColumns } from './constants';
 import { jsonReplacer } from '@/utils/tools';
+import styles from './index.less';
 
-@connect(({ transport }) => ({ transport }))
+@connect(({
+  transport: { lists },
+  loading: {
+    effects: { 'transport/queryList': loading },
+  },
+}) => ({
+  lists,
+  loading,
+}))
 export default class Transport extends PureComponent {
   state = {
     fields: {
+      operator: '',
       pageNum: 0,
       pageSize: 20,
     },
@@ -43,10 +54,7 @@ export default class Transport extends PureComponent {
   };
 
   render() {
-    const {
-      transport: { lists },
-      loading,
-    } = this.props;
+    const { lists, loading } = this.props;
     const { fields, modal } = this.state;
     const { pageNum, pageSize } = fields;
     const setting = {
@@ -95,7 +103,26 @@ export default class Transport extends PureComponent {
           </Button>
         }
       >
-        <Row>
+        <Row className={styles.transportRow}>
+          <Col span={24}>
+            <TransportForm
+              onSubmit={data => {
+                this.setState(
+                  ({ fields: prevFields }) => ({
+                    fields: {
+                      ...prevFields,
+                      ...data,
+                    },
+                  }),
+                  () => {
+                    this.handleSubmit();
+                  },
+                );
+              }}
+            />
+          </Col>
+        </Row>
+        <Row className={styles.transportRow}>
           <Col span={24}>
             <NormalTable {...setting} />
           </Col>

@@ -4,10 +4,9 @@ import moment from 'moment';
 import styles from './index.less';
 
 export default function NormalDatePicker(props) {
-  const { form, name, options = {}, ...others } = props;
+  const { form, name, options = {}, format = 'YYYY-MM-DD HH:MM:ss', ...others } = props;
   const { getFieldDecorator, setFieldsValue } = form;
   const initialDate = options.initialValue || moment();
-  const format = options.format || 'YYYY-MM-DD HH:MM:ss';
   const [date, setDate] = useState(initialDate);
   getFieldDecorator(name, options);
 
@@ -23,7 +22,15 @@ export default function NormalDatePicker(props) {
 
   return (
     <Fragment>
-      <DatePicker className={styles.normalDate} showTime placeholder="Select Time" value={date} onChange={onChange} format={format} {...others} />
+      <DatePicker
+        className={styles.normalDate}
+        showTime
+        placeholder="Select Time"
+        value={date}
+        onChange={onChange}
+        format={format}
+        {...others}
+      />
     </Fragment>
   );
 }

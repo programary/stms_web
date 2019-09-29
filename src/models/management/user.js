@@ -1,7 +1,7 @@
-import { queryList, add, modify, queryDetail, remove } from '@/services/transport';
+import { queryList, add, modify, queryDetail, remove } from '@/services/management/user';
 
 export default {
-  namespace: 'transport',
+  namespace: 'managementUser',
   state: {
     lists: {},
     detailMap: {},
@@ -38,7 +38,7 @@ export default {
     },
     *queryDetail({ payload }, { call, put, select }) {
       const data = yield call(queryDetail, payload);
-      const detail = yield select(({ transport: { detailMap } }) => detailMap);
+      const detail = yield select(({ managementUser: { detailMap } }) => detailMap);
       const detailMap = {
         ...detail,
         [payload.id]: data,
