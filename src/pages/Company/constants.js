@@ -21,7 +21,7 @@ export const COMPANYURLPATH = {
 
 export const renderColumns = (props, ctx) => {
   const { dispatch } = props;
-  const { handleSubmit } = ctx;
+  const { handleSubmit, handleModalActive } = ctx;
   const columns = [
     // {
     //   title: '企业ID',
@@ -113,6 +113,30 @@ export const renderColumns = (props, ctx) => {
           }}
         >
           删除
+        </a>
+      ),
+    },
+    {
+      key: 'openAttach',
+      dataIndex: 'openAttach',
+      fixed: 'right',
+      width: 50,
+      render: (_, record) => (
+        <a
+          onClick={e => {
+            e.preventDefault();
+            handleModalActive({
+              name: 'attach',
+              opt: {
+                show: true,
+                data: {
+                  id: record.id,
+                },
+              },
+            });
+          }}
+        >
+          附件
         </a>
       ),
     },

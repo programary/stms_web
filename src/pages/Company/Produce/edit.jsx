@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import router from 'umi/router';
 import { Form, Card, Button, Select, message } from 'antd';
 import TrimInput from '@/components/TrimInput';
+import AttachmentModal from '../Modal/AttachmentModal';
 // import NormalDatePicker from '@/components/NormalDatePicker';
 import { COMPANYNAME, COMPANYTYPE } from '../constants';
 
@@ -23,6 +24,15 @@ const { Option } = Select;
 )
 @Form.create({})
 export default class CompanyHandleEdit extends PureComponent {
+  state = {
+    modal: {
+      attach: {
+        show: false,
+        data: null,
+      },
+    },
+  };
+
   componentDidMount() {
     this.queryDetail();
   }
@@ -43,11 +53,20 @@ export default class CompanyHandleEdit extends PureComponent {
     });
   };
 
+  handleModalActive = ({ name, opt = {} }) => {
+    this.setState(({ modal }) => ({
+      modal: {
+        ...modal,
+        [name]: opt,
+      },
+    }));
+  }
+
   handleSubmit = e => {
     e && e.preventDefault();
 
     const {
-      form: { validateFields, resetFields },
+      form: { validateFields },
       match: {
         params: { id },
       },
@@ -81,7 +100,8 @@ export default class CompanyHandleEdit extends PureComponent {
         params: { id },
       },
     } = this.props;
-    const { getFieldDecorator, getFieldError } = form;
+    const { modal } = this.state;
+    const { getFieldDecorator } = form;
     const detail = detailMap[id];
     const formItemLayout = {
       labelCol: {
@@ -101,9 +121,30 @@ export default class CompanyHandleEdit extends PureComponent {
       <Card
         loading={loading}
         bordered={false}
-        title="处置企业-编辑"
-        extra={
+        title="生产企业-编辑"
+        extra={[
           <Button
+            key="attach"
+            className="mgl-10"
+            type="primary"
+            onClick={e => {
+              e.preventDefault();
+              this.handleModalActive({
+                name: 'attach',
+                opt: {
+                  show: true,
+                  data: {
+                    id,
+                  },
+                },
+              });
+            }}
+          >
+            附件
+          </Button>,
+          <Button
+            key="list"
+            className="mgl-10"
             type="primary"
             onClick={e => {
               e.preventDefault();
@@ -111,8 +152,8 @@ export default class CompanyHandleEdit extends PureComponent {
             }}
           >
             返回列表
-          </Button>
-        }
+          </Button>,
+        ]}
       >
         <Form>
           <FormItem {...formItemLayout} label="企业名称">
@@ -226,6 +267,25 @@ export default class CompanyHandleEdit extends PureComponent {
             </Button>
           </FormItem>
         </Form>
+        {modal.attach.data && (
+          <AttachmentModal
+            show={modal.attach.show}
+            data={modal.attach.data}
+            onOk={data => {
+              this.handleSubmit();
+            }}
+            onCancel={() => {
+              this.handleModalActive({
+                name: 'attach',
+                opt: {
+                  show: false,
+                  data: null,
+                },
+              });
+              this.queryDetail();
+            }}
+          />
+        )}
       </Card>
     );
   }

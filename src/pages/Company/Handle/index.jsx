@@ -1,10 +1,11 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
 import { Card, Row, Col, Button, message } from 'antd';
 import NormalTable from '@/components/NormalTable';
 import { renderColumns } from '../constants';
 import CompanyHandleForm from './form';
+import AttachmentModal from '../Modal/AttachmentModal';
 import { jsonReplacer } from '@/utils/tools';
 import styles from './index.less';
 
@@ -24,10 +25,25 @@ export default class CompanyHandle extends PureComponent {
       pageSize: 20,
       companyName: '',
     },
+    modal: {
+      attach: {
+        show: false,
+        data: null,
+      },
+    },
   };
 
   componentDidMount() {
     this.handleSubmit();
+  }
+
+  handleModalActive = ({ name, opt = {} }) => {
+    this.setState(({ modal }) => ({
+      modal: {
+        ...modal,
+        [name]: opt,
+      },
+    }));
   }
 
   handleSubmit = (params = {}) => {
@@ -59,8 +75,8 @@ export default class CompanyHandle extends PureComponent {
     const { pageNum, pageSize } = fields;
     const setting = {
       loading,
-      data: lists.list,
-      total: lists.count,
+      data: lists.result,
+      total: lists.totalcount,
       columns: renderColumns(this.props, this),
       current: pageNum / pageSize + 1,
       pageSize,
@@ -87,47 +103,68 @@ export default class CompanyHandle extends PureComponent {
     };
 
     return (
-      <Card
-        bordered={false}
-        title="处置企业"
-        extra={
-          <Button
-            icon="plus"
-            type="primary"
-            onClick={e => {
-              e.preventDefault();
-              router.push('/company/handle/add');
-            }}
-          >
-            添加
-          </Button>
-        }
-      >
-        <Row className={styles.handleCompanyRow}>
-          <Col span={24}>
-            <CompanyHandleForm
-              onSubmit={data => {
-                this.setState(
-                  ({ fields: prevFields }) => ({
-                    fields: {
-                      ...prevFields,
-                      ...data,
-                    },
-                  }),
-                  () => {
-                    this.handleSubmit();
-                  },
-                );
+      <Fragment>
+        <Card
+          bordered={false}
+          title="处置企业"
+          extra={
+            <Button
+              icon="plus"
+              type="primary"
+              onClick={e => {
+                e.preventDefault();
+                router.push('/company/handle/add');
               }}
-            />
-          </Col>
-        </Row>
-        <Row className={styles.handleCompanyRow}>
-          <Col span={24}>
-            <NormalTable {...setting} />
-          </Col>
-        </Row>
-      </Card>
+            >
+              添加
+            </Button>
+          }
+        >
+          <Row className={styles.handleCompanyRow}>
+            <Col span={24}>
+              <CompanyHandleForm
+                onSubmit={data => {
+                  this.setState(
+                    ({ fields: prevFields }) => ({
+                      fields: {
+                        ...prevFields,
+                        ...data,
+                      },
+                    }),
+                    () => {
+                      this.handleSubmit();
+                    },
+                  );
+                }}
+              />
+            </Col>
+          </Row>
+          <Row className={styles.handleCompanyRow}>
+            <Col span={24}>
+              <NormalTable {...setting} />
+            </Col>
+          </Row>
+        </Card>
+        {modal.attach.data && (
+          <AttachmentModal
+            show={modal.attach.show}
+            data={modal.attach.data}
+            onOk={data => {
+              this.handleSubmit();
+            }}
+            onCancel={() => {
+              this.handleModalActive({
+                name: 'attach',
+                opt: {
+                  show: false,
+                  data: null,
+                },
+              });
+              this.handleSubmit();
+            }}
+          />
+        )}
+      </Fragment>
     );
   }
 }

@@ -3,24 +3,25 @@ import { connect } from 'dva';
 import router from 'umi/router';
 import { Card, Row, Col, Button, message } from 'antd';
 import NormalTable from '@/components/NormalTable';
-import TransportForm from './form';
+import TrashForm from './form';
 import { renderColumns } from './constants';
 import { jsonReplacer } from '@/utils/tools';
 import styles from './index.less';
 
 @connect(({
-  transport: { lists },
+  trash: { lists },
   loading: {
-    effects: { 'transport/queryList': loading },
+    effects: { 'trash/queryList': loading },
   },
 }) => ({
   lists,
   loading,
 }))
-export default class Transport extends PureComponent {
+export default class Trash extends PureComponent {
   state = {
     fields: {
-      operator: '',
+      code: '',
+      name: '',
       pageNum: 0,
       pageSize: 20,
     },
@@ -44,7 +45,7 @@ export default class Transport extends PureComponent {
     );
 
     dispatch({
-      type: 'transport/queryList',
+      type: 'trash/queryList',
       payload: {
         ...formatParams,
       },
@@ -81,31 +82,28 @@ export default class Transport extends PureComponent {
           },
         );
       },
-      scroll: {
-        x: 3000,
-      },
     };
 
     return (
       <Card
         bordered={false}
-        title="运输管理"
+        title="废品管理"
         extra={
           <Button
             icon="plus"
             type="primary"
             onClick={e => {
               e.preventDefault();
-              router.push('/transport/add');
+              router.push('/trash/add');
             }}
           >
             添加
           </Button>
         }
       >
-        <Row className={styles.transportRow}>
+        <Row className={styles.trashRow}>
           <Col span={24}>
-            <TransportForm
+            <TrashForm
               onSubmit={data => {
                 this.setState(
                   ({ fields: prevFields }) => ({
@@ -122,7 +120,7 @@ export default class Transport extends PureComponent {
             />
           </Col>
         </Row>
-        <Row className={styles.transportRow}>
+        <Row className={styles.trashRow}>
           <Col span={24}>
             <NormalTable {...setting} />
           </Col>

@@ -59,8 +59,8 @@ export default class ManagementUser extends PureComponent {
     const { pageNum, pageSize } = fields;
     const setting = {
       loading,
-      data: lists.list,
-      total: lists.count,
+      data: lists.result,
+      total: lists.totalcount,
       columns: renderColumns(this.props, this),
       current: pageNum / pageSize + 1,
       pageSize,

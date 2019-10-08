@@ -109,8 +109,8 @@ export default class TransportEdit extends PureComponent {
       >
         <Form>
           <FormItem {...formItemLayout} label="公司">
-            {getFieldDecorator('companyId', {
-              initialValue: detail ? detail.companyId : '',
+            {getFieldDecorator('produceCompanyId', {
+              initialValue: detail ? detail.produceCompanyId : '',
               rules: [
                 {
                   required: true,

@@ -57,7 +57,7 @@ export default class CompanyHandleAdd extends PureComponent {
     return (
       <Card
         bordered={false}
-        title="处置企业-新增"
+        title="生产企业-新增"
         extra={
           <Button
             type="primary"

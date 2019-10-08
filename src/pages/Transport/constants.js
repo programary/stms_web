@@ -12,9 +12,9 @@ export const renderColumns = (props, ctx) => {
   const { handleSubmit } = ctx;
   const columns = [
     {
-      title: '公司ID',
-      key: 'companyId',
-      dataIndex: 'companyId',
+      title: '生产公司',
+      key: 'produceCompanyName',
+      dataIndex: 'produceCompanyName',
     },
     {
       title: '运输时间',
@@ -88,9 +88,9 @@ export const renderColumns = (props, ctx) => {
       dataIndex: 'dataVersion',
     },
     {
-      title: '处置公司id',
-      key: 'disposeCompanyId',
-      dataIndex: 'disposeCompanyId',
+      title: '处置公司',
+      key: 'disposeCompanyName',
+      dataIndex: 'disposeCompanyName',
     },
     {
       title: '发运人',

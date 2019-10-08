@@ -40,8 +40,19 @@ const routes = [
             component: './Transport/edit',
           },
           {
+            path: '/trash/list',
+            name: '废品管理',
+            icon: 'rest',
+            component: './Trash',
+          },
+          {
+            path: '/trash/add',
+            hideInMenu: true,
+            component: './Trash/add',
+          },
+          {
             path: '/company',
-            name: '企业',
+            name: '企业管理',
             icon: 'home',
             routes: [
               {
