@@ -9,12 +9,11 @@ export default function NormalDateRangePicker(props) {
   const {
     form,
     names: [n1, n2],
-    format = 'YYYY-MM-DD HH:MM:ss',
+    format = 'YYYY-MM-DD HH:mm:ss',
     options: [opt1, opt2] = [{}, {}],
     ...others
   } = props;
   const { getFieldDecorator, getFieldValue, setFieldsValue } = form;
-  const now = moment();
   getFieldDecorator(n1, opt1);
   getFieldDecorator(n2, opt2);
   const startDate = getFieldValue(n1);
@@ -32,16 +31,35 @@ export default function NormalDateRangePicker(props) {
       {...others}
       className={styles.normalRangeDate}
       ranges={{
-        昨天: [now.subtract(1, 'days').startOf('day'), now.subtract(1, 'days').endOf('day')],
+        昨天: [
+          moment()
+            .subtract(1, 'days')
+            .startOf('day'),
+          moment()
+            .subtract(1, 'days')
+            .endOf('day'),
+        ],
         今天: [moment().startOf('day'), moment()],
-        最近7日: [now.subtract(7, 'days').startOf('day'), now],
-        最近30日: [now.subtract(30, 'days').startOf('day'), now],
+        最近7日: [
+          moment()
+            .subtract(7, 'days')
+            .startOf('day'),
+          moment(),
+        ],
+        最近30日: [
+          moment()
+            .subtract(30, 'days')
+            .startOf('day'),
+          moment(),
+        ],
       }}
       value={[
         startDate ? moment(startDate, format) : null,
         endDate ? moment(endDate, format) : null,
       ]}
-      showTime
+      showTime={{
+        defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')],
+      }}
       format={format}
       onChange={onChange}
     />

@@ -33,6 +33,27 @@ ol {
   margin-left: 10px;
 }
 
+.normalSelect {
+  width: 400px !important;
+}
+
+.clearfix {
+  &::after,
+  &::before {
+    display: table;
+    clear: both;
+    content: '';
+  }
+}
+
+.pull-left {
+  float: left !important;
+}
+
+.pull-right {
+  float: right !important;
+}
+
 @media (max-width: @screen-xs) {
   .ant-table {
     width: 100%;

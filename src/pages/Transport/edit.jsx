@@ -1,21 +1,28 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
-import { Form, Card, Button, message } from 'antd';
+import { Form, Card, Button, Select, Spin, message } from 'antd';
 import moment from 'moment';
 import TrimInput from '@/components/TrimInput';
 import NormalDatePicker from '@/components/NormalDatePicker';
 
 const FormItem = Form.Item;
+const { Option } = Select;
 
 @connect(
   ({
     transport: { detailMap },
+    trash: { lists: trash },
+    produceCompany: { lists: produce },
+    handleCompany: { lists: handle },
     loading: {
       effects: { 'transport/modify': confirmLoading, 'transport/queryDetail': loading },
     },
   }) => ({
     detailMap,
+    trash,
+    produce,
+    handle,
     loading,
     confirmLoading,
   }),
@@ -46,13 +53,12 @@ export default class TransportEdit extends PureComponent {
     e && e.preventDefault();
 
     const {
-      form: { validateFields, resetFields },
+      form: { validateFields },
       dispatch,
     } = this.props;
 
     validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         dispatch({
           type: 'transport/modify',
           payload: values,
@@ -62,6 +68,51 @@ export default class TransportEdit extends PureComponent {
         });
       }
     });
+  };
+
+  renderSelect = name => {
+    const {
+      trash: { result: trashLists = [] },
+      produce: { result: produceLists = [] },
+      handle: { result: handleLists = [] },
+    } = this.props;
+    const mapping = {
+      trash: {
+        lists: trashLists,
+        label: 'name',
+        value: 'code',
+      },
+      produce: {
+        lists: produceLists,
+        label: 'companyName',
+        value: 'id',
+      },
+      handle: {
+        lists: handleLists,
+        label: 'companyName',
+        value: 'id',
+      },
+    };
+
+    return mapping[name] && mapping[name].lists.length > 0 ? (
+      <Select
+        showSearch
+        className="normalSelect"
+        optionFilterProp="children"
+        filterOption={(input, option) =>
+          `${option.props.children}`.toLowerCase().indexOf(input.toLowerCase()) >= 0 ||
+          `${option.props.value}`.indexOf(input) >= 0
+        }
+      >
+        {mapping[name].lists.map(list => (
+          <Option key={list[mapping[name].value]} value={list[mapping[name].value]}>
+            {list[mapping[name].label]}
+          </Option>
+        ))}
+      </Select>
+    ) : (
+      <Spin />
+    );
   };
 
   render() {
@@ -108,16 +159,16 @@ export default class TransportEdit extends PureComponent {
         }
       >
         <Form>
-          <FormItem {...formItemLayout} label="公司">
+          <FormItem {...formItemLayout} label="生产公司">
             {getFieldDecorator('produceCompanyId', {
               initialValue: detail ? detail.produceCompanyId : '',
               rules: [
                 {
                   required: true,
-                  message: '公司必填!',
+                  message: '生产公司必填!',
                 },
               ],
-            })(<TrimInput />)}
+            })(this.renderSelect('produce'))}
           </FormItem>
           <FormItem
             {...formItemLayout}
@@ -154,15 +205,15 @@ export default class TransportEdit extends PureComponent {
             })(<TrimInput />)}
           </FormItem>
           <FormItem {...formItemLayout} label="垃圾代码">
-            {getFieldDecorator('trushCode', {
-              initialValue: detail ? detail.trushCode : '',
+            {getFieldDecorator('trashCode', {
+              initialValue: detail ? detail.trashCode : '',
               rules: [
                 {
                   required: true,
                   message: '垃圾代码必填!',
                 },
               ],
-            })(<TrimInput />)}
+            })(this.renderSelect('trash'))}
           </FormItem>
           <FormItem {...formItemLayout} label="处置单价">
             {getFieldDecorator('disposeUnitPrice', {
@@ -294,7 +345,7 @@ export default class TransportEdit extends PureComponent {
                   message: '处置公司必填!',
                 },
               ],
-            })(<TrimInput />)}
+            })(this.renderSelect('handle'))}
           </FormItem>
           <FormItem {...formItemLayout} label="发运人">
             {getFieldDecorator('operator', {

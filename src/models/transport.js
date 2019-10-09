@@ -36,7 +36,12 @@ export default {
     *remove({ payload }, { call }) {
       yield call(remove, payload);
     },
-    *queryDetail({ payload }, { call, put, select }) {
+    *queryDetail({ payload }, { call, put, select, all }) {
+      yield all([
+        put({ type: 'handleCompany/queryList' }),
+        put({ type: 'produceCompany/queryList' }),
+        put({ type: 'trash/queryList' }),
+      ]);
       const data = yield call(queryDetail, payload);
       const detail = yield select(({ transport: { detailMap } }) => detailMap);
       const detailMap = {
