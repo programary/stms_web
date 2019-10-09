@@ -10,5 +10,7 @@ module.exports = {
     ...strictEslint.rules,
     'lines-between-class-members': [0],
     'import/newline-after-import': [0],
+    'no-confusing-arrow': [0],
+    'no-unused-expressions': [0],
   },
 };

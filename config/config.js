@@ -1,7 +1,8 @@
 import defaultSettings from './defaultSettings'; // https://umijs.org/config/
-
 import slash from 'slash2';
 import webpackPlugin from './plugin.config';
+import routes from './routes';
+
 const { pwa, primaryColor } = defaultSettings; // preview.pro.ant.design only do not use in your production ;
 // preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
 
@@ -54,20 +55,20 @@ const plugins = [
   ],
 ]; // 针对 preview.pro.ant.design 的 GA 统计代码
 
-if (isAntDesignProPreview) {
-  plugins.push([
-    'umi-plugin-ga',
-    {
-      code: 'UA-72788897-6',
-    },
-  ]);
-  plugins.push([
-    'umi-plugin-pro',
-    {
-      serverUrl: 'https://ant-design-pro.netlify.com',
-    },
-  ]);
-}
+// if (isAntDesignProPreview) {
+//   plugins.push([
+//     'umi-plugin-ga',
+//     {
+//       code: 'UA-72788897-6',
+//     },
+//   ]);
+//   plugins.push([
+//     'umi-plugin-pro',
+//     {
+//       serverUrl: 'https://ant-design-pro.netlify.com',
+//     },
+//   ]);
+// }
 
 export default {
   plugins,
@@ -82,51 +83,7 @@ export default {
   },
   devtool: isAntDesignProPreview ? 'source-map' : false,
   // umi routes: https://umijs.org/zh/guide/router.html
-  routes: [
-    {
-      path: '/user',
-      component: '../layouts/UserLayout',
-      routes: [
-        {
-          name: 'login',
-          path: '/user/login',
-          component: './user/login',
-        },
-      ],
-    },
-    {
-      path: '/',
-      component: '../layouts/SecurityLayout',
-      routes: [
-        {
-          path: '/',
-          component: '../layouts/BasicLayout',
-          authority: ['admin', 'user', 'login'],
-          routes: [
-            {
-              path: '/',
-              redirect: '/welcome',
-            },
-            {
-              path: '/welcome',
-              name: 'welcome',
-              icon: 'smile',
-              component: './Welcome',
-            },
-            {
-              component: './404',
-            },
-          ],
-        },
-        {
-          component: './404',
-        },
-      ],
-    },
-    {
-      component: './404',
-    },
-  ],
+  routes,
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
     'primary-color': primaryColor,
@@ -171,7 +128,7 @@ export default {
   chainWebpack: webpackPlugin,
   proxy: {
     '/api': {
-      target: 'http://111.231.191.63:3000/mock/11',
+      target: 'http://111.231.191.63:3000/mock/38',
       changeOrigin: true,
     },
   },
