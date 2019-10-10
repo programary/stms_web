@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import styles from './AttachmentModal.less';
 
 const ListItem = List.Item;
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
 @connect(
   ({
@@ -70,7 +71,20 @@ export default class AttachmentModal extends PureComponent {
       onCancel,
     } = this.props;
     const uploadProps = {
+      disabled: lists && lists.length >= 3,
       showUploadList: false,
+      beforeUpload: file => {
+        console.log('beforeUpload file', file);
+        if (lists && lists.length >= 3) {
+          message.error('附件数量不能大于3个!请删除后，重新上传!');
+          return false;
+        }
+        if (file.size >= MAX_FILE_SIZE) {
+          message.error('上传文件不能大于10M!');
+          return false;
+        }
+        return true;
+      },
       customRequest: ({ file, filename }) => {
         const formData = new FormData();
         formData.append(filename, file);
@@ -104,7 +118,7 @@ export default class AttachmentModal extends PureComponent {
       >
         <Spin spinning={loading}>
           <Upload {...uploadProps}>
-            <Button icon="upload" loading={uploadAttachLoading}>
+            <Button icon="upload" disabled={lists && lists.length >= 3} loading={uploadAttachLoading}>
               附件上传
             </Button>
           </Upload>
