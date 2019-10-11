@@ -6,8 +6,29 @@ import routes from './routes';
 const { pwa, primaryColor } = defaultSettings; // preview.pro.ant.design only do not use in your production ;
 // preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
 
-const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION } = process.env;
+const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION, API } = process.env;
 const isAntDesignProPreview = ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site';
+
+// proxy control
+const { proxyUrl = '', proxyPort = '', proxyPath = '', pathRewrite = {} } = {
+  MOCK: {
+    proxyUrl: '111.231.191.63',
+    proxyPort: '3000',
+    proxyPath: '/mock/38',
+    pathRewrite: {
+      '^/api': '/api',
+    },
+  },
+  DEV: {
+    proxyUrl: '111.231.191.63',
+    proxyPort: '8080',
+    proxyPath: '',
+    pathRewrite: {
+      '^/api': '/api',
+    },
+  },
+}[API];
+
 const plugins = [
   [
     'umi-plugin-react',
@@ -128,8 +149,9 @@ export default {
   chainWebpack: webpackPlugin,
   proxy: {
     '/api': {
-      target: 'http://111.231.191.63:3000/mock/38',
+      target: `http://${proxyUrl}:${proxyPort}${proxyPath}`,
       changeOrigin: true,
+      pathRewrite,
     },
   },
 };
