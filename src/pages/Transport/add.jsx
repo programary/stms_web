@@ -200,7 +200,7 @@ export default class TransportAdd extends PureComponent {
               ],
             })(<TrimInput />)}
           </FormItem>
-          <FormItem {...formItemLayout} label="扩展字段">
+          {/* <FormItem {...formItemLayout} label="扩展字段">
             {getFieldDecorator('properties', {
               rules: [
                 {
@@ -229,7 +229,7 @@ export default class TransportAdd extends PureComponent {
                 },
               ],
             })(<TrimInput />)}
-          </FormItem>
+          </FormItem> */}
           <FormItem {...formItemLayout} label="处置公司">
             {getFieldDecorator('disposeCompanyId', {
               rules: [

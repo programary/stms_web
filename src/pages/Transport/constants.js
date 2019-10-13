@@ -29,8 +29,8 @@ export const renderColumns = (props, ctx) => {
     },
     {
       title: '垃圾代码',
-      key: 'trushCode',
-      dataIndex: 'trushCode',
+      key: 'trashCode',
+      dataIndex: 'trashCode',
     },
     {
       title: '处置单价',

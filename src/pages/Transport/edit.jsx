@@ -54,14 +54,22 @@ export default class TransportEdit extends PureComponent {
 
     const {
       form: { validateFields },
+      detailMap,
       dispatch,
+      match: {
+        params: { id },
+      },
     } = this.props;
+    const detail = detailMap[id];
 
     validateFields((err, values) => {
       if (!err) {
         dispatch({
           type: 'transport/modify',
-          payload: values,
+          payload: {
+            ...detail,
+            ...values,
+          },
         }).then(() => {
           message.success('修改成功!');
           window.location.reload();
@@ -303,7 +311,7 @@ export default class TransportEdit extends PureComponent {
               ],
             })(<TrimInput />)}
           </FormItem>
-          <FormItem {...formItemLayout} label="扩展字段">
+          {/* <FormItem {...formItemLayout} label="扩展字段">
             {getFieldDecorator('properties', {
               initialValue: detail ? detail.properties : '',
               rules: [
@@ -335,7 +343,7 @@ export default class TransportEdit extends PureComponent {
                 },
               ],
             })(<TrimInput />)}
-          </FormItem>
+          </FormItem> */}
           <FormItem {...formItemLayout} label="处置公司">
             {getFieldDecorator('disposeCompanyId', {
               initialValue: detail ? detail.disposeCompanyId : '',

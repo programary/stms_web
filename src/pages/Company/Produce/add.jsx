@@ -121,7 +121,7 @@ export default class CompanyHandleAdd extends PureComponent {
               ],
             })(<TrimInput />)}
           </FormItem>
-          <FormItem {...formItemLayout} label="扩展字段">
+          {/* <FormItem {...formItemLayout} label="扩展字段">
             {getFieldDecorator('properties', {
               rules: [
                 {
@@ -150,7 +150,7 @@ export default class CompanyHandleAdd extends PureComponent {
                 },
               ],
             })(<TrimInput />)}
-          </FormItem>
+          </FormItem> */}
           <FormItem {...formItemLayout} label="企业类型">
             {getFieldDecorator('type', {
               initialValue: COMPANYTYPE.PRODUCE,

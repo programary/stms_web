@@ -71,7 +71,9 @@ export default class CompanyHandleEdit extends PureComponent {
         params: { id },
       },
       dispatch,
+      detailMap,
     } = this.props;
+    const detail = detailMap[id];
 
     validateFields((err, values) => {
       if (!err) {
@@ -80,6 +82,7 @@ export default class CompanyHandleEdit extends PureComponent {
           type: 'produceCompany/modify',
           payload: {
             id,
+            ...detail,
             ...values,
           },
         }).then(() => {
@@ -211,7 +214,7 @@ export default class CompanyHandleEdit extends PureComponent {
               ],
             })(<TrimInput />)}
           </FormItem>
-          <FormItem {...formItemLayout} label="扩展字段">
+          {/* <FormItem {...formItemLayout} label="扩展字段">
             {getFieldDecorator('properties', {
               initialValue: detail ? detail.properties : '',
               rules: [
@@ -243,7 +246,7 @@ export default class CompanyHandleEdit extends PureComponent {
                 },
               ],
             })(<TrimInput />)}
-          </FormItem>
+          </FormItem> */}
           <FormItem {...formItemLayout} label="企业类型">
             {getFieldDecorator('type', {
               initialValue: detail ? detail.type : COMPANYTYPE.HANDLE,
